@@ -10,7 +10,9 @@ loadProducts();
 const showProducts = (products) => {
   const allProducts = products.map((pd) => pd);
   for (const product of allProducts) {
-    const image = product.images;
+    console.log(product)
+    const { count, rate } = product.rating;
+    const image = product.image;
     const div = document.createElement("div");
     div.classList.add("product");
     div.innerHTML = `<div class="single-product">
@@ -19,9 +21,11 @@ const showProducts = (products) => {
       </div>
       <h3>${product.title}</h3>
       <p>Category: ${product.category}</p>
+      <p> Total Review : ${count} </p>
+      <p> Rating : ${rate} </p>
       <h2>Price: $ ${product.price}</h2>
       <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
-      <button id="details-btn" class="btn btn-danger">Details</button></div>
+      <button onclick='singleProduct("${product.id}")' id="details-btn" class="btn btn-danger">Details</button></div>
       `;
     document.getElementById("all-products").appendChild(div);
   }
@@ -32,12 +36,49 @@ const addToCart = (id, price) => {
   updatePrice("price", price);
 
   updateTaxAndCharge();
+  updateTotal();
   document.getElementById("total-Products").innerText = count;
 };
 
+
+const singleProduct = (id) => {
+  const url = `https://fakestoreapi.com/products/${id}`;
+  fetch(url)
+    .then(res => res.json())
+    .then(data => displayModal(data));
+}
+
+
+const displayModal = (product) => {
+  const modal = document.getElementById('modal')
+  modal.innerHTML = `
+  
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Modal body text goes here.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+   
+  `
+
+}
+
+
+
+
 const getInputValue = (id) => {
   const element = document.getElementById(id).innerText;
-  const converted = parseInt(element);
+  const converted = parseFloat(element);
   return converted;
 };
 
@@ -46,12 +87,12 @@ const updatePrice = (id, value) => {
   const convertedOldPrice = getInputValue(id);
   const convertPrice = parseFloat(value);
   const total = convertedOldPrice + convertPrice;
-  document.getElementById(id).innerText = Math.round(total);
+  document.getElementById(id).innerText = (total).toFixed(2);
 };
 
 // set innerText function
 const setInnerText = (id, value) => {
-  document.getElementById(id).innerText = Math.round(value);
+  document.getElementById(id).innerText = (value).toFixed(2);
 };
 
 // update delivery charge and total Tax
@@ -76,5 +117,5 @@ const updateTotal = () => {
   const grandTotal =
     getInputValue("price") + getInputValue("delivery-charge") +
     getInputValue("total-tax");
-  document.getElementById("total").innerText = grandTotal;
+  document.getElementById("total").innerText = (grandTotal).toFixed(2);
 };
