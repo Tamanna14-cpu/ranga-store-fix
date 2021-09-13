@@ -10,26 +10,41 @@ loadProducts();
 const showProducts = (products) => {
   const allProducts = products.map((pd) => pd);
   for (const product of allProducts) {
-    console.log(product)
+
     const { count, rate } = product.rating;
     const image = product.image;
     const div = document.createElement("div");
     div.classList.add("product");
-    div.innerHTML = `<div class="single-product">
-      <div>
+    div.innerHTML = `
+    
+   <div class="card trans-card">
+    <div class="card-body">
+    <div>
     <img class="product-image" src=${image}></img>
-      </div>
-      <h3>${product.title}</h3>
-      <p>Category: ${product.category}</p>
-      <p> Total Review : ${count} </p>
-      <p> Rating : ${rate} </p>
-      <h2>Price: $ ${product.price}</h2>
-      <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
-      <button onclick='singleProduct("${product.id}")' id="details-btn" class="btn btn-danger">Details</button></div>
-      `;
+    </div>
+
+    <h4 class="card-title mt-2">${(product.title).slice(0, 19)}</h4>
+    <p class="card-text">Category: ${product.category}</p>
+    
+    <div class="d-flex justify-content-between">
+       <p> ${count} Reviews </p>
+       <p> Rating : ${rate} </p>
+    </div>
+    <h5>Price: $ ${product.price}</h5>
+    
+    <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-success">
+    <i class="fas fa-shopping-cart"></i> add to cart </button>
+    <button type="button" onclick="singleProduct(${product.id})" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-info-circle"></i> Details </button>
+    </div>
+    
+    </div> 
+
+    `;
     document.getElementById("all-products").appendChild(div);
   }
 };
+
+
 let count = 0;
 const addToCart = (id, price) => {
   count = count + 1;
@@ -41,6 +56,7 @@ const addToCart = (id, price) => {
 };
 
 
+// url for displaying single product
 const singleProduct = (id) => {
   const url = `https://fakestoreapi.com/products/${id}`;
   fetch(url)
@@ -48,29 +64,12 @@ const singleProduct = (id) => {
     .then(data => displayModal(data));
 }
 
-
+// for display modal
 const displayModal = (product) => {
-  const modal = document.getElementById('modal')
-  modal.innerHTML = `
-  
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Modal title</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p>Modal body text goes here.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-   
-  `
-
+  const modalTitle = document.getElementById("modalTitle");
+  const modalBody = document.querySelector(".modal-body");
+  modalTitle.innerHTML = product.title;
+  modalBody.innerHTML = product.description;
 }
 
 
