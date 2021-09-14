@@ -32,9 +32,9 @@ const showProducts = (products) => {
     </div>
     <h5>Price: $ ${product.price}</h5>
     
-    <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-success">
+    <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-warning">
     <i class="fas fa-shopping-cart"></i> add to cart </button>
-    <button type="button" onclick="singleProduct(${product.id})" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-info-circle"></i> Details </button>
+    <button type="button" onclick="singleProduct(${product.id})" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-info-circle"></i> Details </button>
     </div>
     
     </div> 
