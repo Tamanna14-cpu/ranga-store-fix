@@ -28,6 +28,9 @@ body {
 .card h6{
   font-weight: bold;
 }
+.card:hover h5{
+  color: blueviolet;
+}
 
 .trans-card {
   transition: 0.4s;
@@ -37,10 +40,6 @@ body {
   box-shadow: 10px 10px 24px -13px rgba(0, 0, 0, 0.75);
   border-radius: 10px;
   cursor: pointer;
-}
-
-.trans-card h5:hover{
-  color: blueviolet;
 }
 
 /* button */
